@@ -1,0 +1,17 @@
+<title>
+    New Participant
+</title>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'participants:save_participant' %}" method="post">
+{% csrf_token %}
+    Name <input type="text" name="name" id="name" placeholder="Participant's Name" /><br>
+    Age <input type="text" name="age" id="age" placeholder="Participant's Age" /><br>
+    Does the participant have any siblings? <input type="checkbox" name="has_siblings" id="has_siblings" placeholder="Does the Participant have siblings?" /><br>
+    Known environmental exposures <input type="text" name="environmental_exposures" id="text" placeholder="Known environmental exposures" /><br>
+    Known genetic mutations <input type="text" name="genetic_mutations" id="text" placeholder="Known genetic mutations" /><br>
+<input type="submit" value="Add New Participant" />
+</form>
+
+<a href="{% url 'participants:index' %}">Back to the index</a>

@@ -1,0 +1,48 @@
+<title>
+    Participant index!
+</title>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+{% if participants %}
+    <table>
+        <tr>
+            <td>ID</td>
+            <td>Participant Name</td>
+            <td>Participant Age</td>
+            <td>Does Participant have any siblings?</td>
+            <td>Known environmental exposures</td>
+            <td>Known genetic mutations</td>
+            <td>Review Status</td>
+        </tr>
+        {% for part in participants %}
+        <tr>
+            <td>{{ part.id }}</td>
+            <td>{{ part.name }}</td>
+            <td>{{ part.age }}</td>
+            <td>{{ part.has_siblings }}</td>
+            <td>{{ part.environmental_exposures }}</td>
+            <td>{{ part.genetic_mutations }}</td>
+            <td>
+                <form action="{% url 'participants:update_review' part.id %}" id="review_{{ part.id }}" method="post">
+                {% csrf_token %}
+                <select id='review_status' name='review_status' form="review_{{ part.id }}">
+                    {% for key, value in participant_review_status_choices %}
+                        {% if part.review_status == key %}
+                            <option selected value="{{ key }}">{{value}}</option>
+                        {% else %}
+                            <option value="{{ key }}">{{value}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                <input type="submit" value="Change Review Status" />
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <p>No participants were added.</p>
+{% endif %}
+
+<a href="{% url 'participants:new_participant' %}">Add new participants</a>
